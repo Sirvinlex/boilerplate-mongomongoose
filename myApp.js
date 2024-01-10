@@ -12,7 +12,7 @@ const personSchema = mongoose.Schema({
 let Person =  mongoose.model('Person', personSchema);
 
 const createAndSavePerson = (done) => {
-  const person = Person.create({ name: 'Ben', age: 20, favoriteFoods: ['rice', 'beans'] });
+  const person = new Person({ name: 'Ben', age: 20, favoriteFoods: ['rice', 'beans'] });
   person.save(function(err, data) {
     if (err) return console.error(err);
     done(null, data)
@@ -21,10 +21,9 @@ const createAndSavePerson = (done) => {
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
-  const people = Person.create(arrayOfPeople);
-  people.save(function(err, data) {
-    if (err) return console.error(err);
-    done(null, data)
+  Person.create(arrayOfPeople, function (err, people) {
+    if (err) return console.log(err);
+    done(null, people);
   });
 };
 const findPeopleByName = (personName, done) => {
@@ -101,9 +100,9 @@ const queryChain = (done) => {
   .sort({ name: -1 })
   .limit(2)
   .select({ age: 0 })
-  .exec(function(error, people) {
-    if(error) return console.log(error);
-    done(null, people);
+  .exec(function(err, data) {
+    if(err) return console.log(err);
+    done(null, data);
   });
   // done(null /*, data*/);
 };
