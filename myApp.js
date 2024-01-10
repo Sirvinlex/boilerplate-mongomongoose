@@ -100,10 +100,13 @@ const queryChain = (done) => {
   .sort({ name: -1 })
   .limit(2)
   .select({ age: 0 })
-  .exec(function(err, docs) {
-    if(err) return console.log(err);
-    done(null, docs);
-  });
+  .exec(function (err, deletedPersons) { 
+    return (err) ? done(err) : done(null, deletedPersons)
+    });
+  // .exec(function(err, docs) {
+  //   if(err) return console.log(err);
+  //   done(null, docs);
+  // });
   // done(null /*, data*/);
 };
 
