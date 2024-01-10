@@ -97,17 +97,21 @@ const queryChain = (done) => {
   const foodToSearch = "burrito";
 
   Person.find({ favoriteFoods: foodToSearch })
-  .sort({ name: -1 })
+  .sort({ name: 1 })
   .limit(2)
   .select({ age: 0 })
-  .exec(function (err, deletedPersons) { 
-    return (err) ? done(err) : done(null, deletedPersons)
-    });
+  .exec((err, data) => {
+    if(!err) {
+    done(null, data);
+    console.log(`Chained  Successfully. Results: ${data}`)
+    } else {
+      console.log(err);
+    };
+  });
   // .exec(function(err, docs) {
   //   if(err) return console.log(err);
   //   done(null, docs);
   // });
-  // done(null /*, data*/);
 };
 
 /** **Well Done !!**
